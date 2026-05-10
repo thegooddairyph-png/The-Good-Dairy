@@ -557,10 +557,9 @@ function getSelectedFlavor(productId, vi) {
 function addWithFlavor(productId, vi) {
   const p = PRODUCTS.find(x=>x.id===productId);
   if(p.flavors) {
-    const sel = document.getElementById('flavor-'+productId+'-'+vi);
+    const sel = document.getElementById('flavor-'+productId);
     if(!sel || sel.value === '') {
-      sel.style.borderColor='#dc2626';
-      sel.focus();
+      if(sel) { sel.style.borderColor='#dc2626'; sel.focus(); }
       return;
     }
     sel.style.borderColor='';
@@ -610,7 +609,7 @@ function renderShop() {
         <div class="product-desc">${p.desc}</div>
       </div>
       ${p.flavors ? `<div style="padding:0 12px 10px;">
-        <select style="width:100%;font-size:12px;padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#374151;font-family:inherit;" id="flavor-${p.id}-0" onchange="this.style.borderColor=''">
+        <select style="width:100%;font-size:12px;padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#374151;font-family:inherit;" id="flavor-${p.id}" onchange="this.style.borderColor=''">
           <option value="">— Select flavour —</option>
           ${p.flavors.map(f=>`<option value="${f}">${f}</option>`).join('')}
         </select>
@@ -618,7 +617,7 @@ function renderShop() {
       <div class="product-variants">
         ${p.variants.map((v,vi)=>{
           const qty=cartQtyFor(p.id,vi);
-          const flavorSelectId = p.flavors ? 'flavor-'+p.id+'-0' : '';
+          const flavorSelectId = p.flavors ? 'flavor-'+p.id : '';
           return `<div class="variant-row">
             <span class="variant-label">${v.label}</span>
             <span class="variant-price">${fmt(v.price)}</span>
